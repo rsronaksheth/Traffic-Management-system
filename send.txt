@@ -1,0 +1,56 @@
+// Helper to count total vehicles in the AVL tree
+void countVehicles(Vehicle *root, int *count) {
+    if (root != NULL) {
+        countVehicles(root->left, count);
+        (*count)++;
+        countVehicles(root->right, count);
+    }
+}
+
+// Helper to collect vehicle pointers into the array
+void collectVehicles(Vehicle *root, Vehicle **arr, int *index) {
+    if (root != NULL) {
+        collectVehicles(root->left, arr, index);
+        arr[*index] = root;
+        (*index)++;
+        collectVehicles(root->right, arr, index);
+    }
+}
+
+// Master function to display vehicles sorted alphabetically by owner name
+void displayVehiclesByName(Vehicle *root) {
+    int count = 0;
+    countVehicles(root, &count);
+
+    if (count == 0) {
+        printf("No vehicles registered in the system.\n");
+    } else {
+        Vehicle **arr = (Vehicle **)malloc(count * sizeof(Vehicle *));
+        if (arr == NULL) {
+            printf("Memory allocation failed for pointer array!\n");
+        } else {
+            int index = 0;
+            collectVehicles(root, arr, &index);
+
+            // Sort the pointer array alphabetically by owner name using Bubble Sort
+            for (int i = 0; i < count - 1; i++) {
+                for (int j = 0; j < count - i - 1; j++) {
+                    if (strcmp(arr[j]->name, arr[j + 1]->name) > 0) {
+                        Vehicle *temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+
+            // Display results
+            printf("\n--- Registered Vehicles Sorted By Owner Name ---\n");
+            for (int i = 0; i < count; i++) {
+                printf("Owner: %s | Reg No: %s | Contact: %s | Address: %s | Total Fine: %.2f | Pending Fine: %.2f\n",
+                       arr[i]->name, arr[i]->regNo, arr[i]->contact, arr[i]->address,
+                       arr[i]->totalFine, arr[i]->pendingFine);
+            }
+            free(arr);
+        }
+    }
+}

@@ -1,0 +1,10 @@
+LOC01 Dharampeth
+LOC02 Sitabuldi
+LOC03 Sadar
+LOC04 ManishNagar
+LOC05 WardhaRoad
+LOC06 CivilLines
+LOC07 Hingna
+LOC08 BajajNagar
+LOC09 TrimurtiNagar
+LOC10 SeminaryHills
